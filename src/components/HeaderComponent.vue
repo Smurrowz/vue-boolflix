@@ -16,7 +16,10 @@
       </nav>
     </div>
     <div class="header-right">
-      <input type="text">
+      <input v-model="inputText" type="text">
+      <button @click="fetchMovies()">
+        Cerca
+      </button>
     </div>
 
   </header>
@@ -24,8 +27,43 @@
 
 </template>
 <script>
+import state from '../store';
+import axios from 'axios'
+
 export default {
-  name: 'HeaderComponent'
+  name: 'HeaderComponent',
+  data(){
+    return{
+      inputText: '',
+      movies: [],
+      tvShows: [],
+      api_key: '8cbfe3a39283c4f44f68376b0e0e6c1b',
+      BASE_URI: 'https://api.themoviedb.org/3'
+    }
+  },
+  // watch: {
+  //   input: function(){
+  //     state.input = this.input
+      
+
+  //   }
+  // },
+  methods: {
+    fetchMovies() {
+      axios
+        .get(`${this.BASE_URI}/search/movie`, {
+          params: {
+            api_key: this.api_key,
+            query: this.inputText,
+          }
+        })
+        .then((res) => {
+          state.movies = res.data.results
+          console.log(this.movies)
+        })
+    }
+  },
+  
 }
 </script>
 <style scoped lang="scss">
