@@ -17,7 +17,7 @@
     </div>
     <div class="header-right">
       <input v-model="inputText" type="text">
-      <button @click="fetchMovies()">
+      <button @click="fetchMovies(), fetchTvShows()">
         Cerca
       </button>
     </div>
@@ -60,6 +60,19 @@ export default {
         .then((res) => {
           state.movies = res.data.results
           console.log(this.movies)
+        })
+    },
+    fetchTvShows(){
+      axios
+        .get(`${this.BASE_URI}/search/tv`, {
+          params: {
+            api_key: this.api_key,
+            query: this.inputText,
+          }
+        })
+        .then((res) => {
+          state.tvShows = res.data.results
+          console.log(this.tvShows)
         })
     }
   },

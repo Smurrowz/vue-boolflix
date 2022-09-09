@@ -24,6 +24,6 @@ export default {
   @import './index.scss';
   #app{
     background-color: rgb(32, 30, 30);
-    height: 100vh;
+    min-height: 100vh;
   }
 </style>
