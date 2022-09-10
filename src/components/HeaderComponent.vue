@@ -7,17 +7,17 @@
       </div>
       <nav>
         <ul>
-          <li>bla</li>
-          <li>bla</li>
-          <li>bla</li>
-          <li>bla</li>
-          <li>bla</li>
+          <li><a href="#">Film</a></li>
+          <li><a href="#">Serie TV</a></li>
+          <li><a href="#">Anime</a></li>
+          <li><a href="#">Originali Netflix</a></li>
+          <li><a href="#">Home</a></li>
         </ul>
       </nav>
     </div>
-    <div class="header-right">
-      <input v-model="inputText" type="text">
-      <button @click="fetchMovies(), fetchTvShows()">
+    <div >
+      <input class="input-text" v-model="inputText" type="text">
+      <button class="input-button" @click="fetchMovies(), fetchTvShows()">
         Cerca
       </button>
     </div>
@@ -41,13 +41,6 @@ export default {
       BASE_URI: 'https://api.themoviedb.org/3'
     }
   },
-  // watch: {
-  //   input: function(){
-  //     state.input = this.input
-      
-
-  //   }
-  // },
   methods: {
     fetchMovies() {
       axios
@@ -94,15 +87,32 @@ export default {
 
     & ul {
       display: flex;
-      color: white;
       gap: 15px;
+      & a{
+        color: white;
+        text-decoration: none;
+      }
 
     }
   }
 
-  & .header-right {
-    border-radius: 10px;
+  & .input-text {
+    border-radius: 8px;
+    line-height: 20px;
+    margin-right: 10px;
+
   }
+  & .input-button{
+    border-radius: 8px;
+    line-height: 20px;
+    padding: 0 10px;
+    font-weight: bold;
+    &:hover{
+      background-color: grey;
+      color: white;
+    }
+  }
+
 }
 
 .header-img {
