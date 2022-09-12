@@ -2,7 +2,7 @@ import Vue from 'vue'
 const state = Vue.observable({
   input: '',
   movies: [],
-  tvShows: []
+  tvShows: [],
 })
 
 export default state

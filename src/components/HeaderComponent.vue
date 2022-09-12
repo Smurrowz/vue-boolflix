@@ -53,6 +53,7 @@ export default {
         .then((res) => {
           state.movies = res.data.results
           console.log(this.movies)
+          
         })
     },
     fetchTvShows(){
@@ -67,7 +68,7 @@ export default {
           state.tvShows = res.data.results
           console.log(this.tvShows)
         })
-    }
+    },
   },
   
 }
