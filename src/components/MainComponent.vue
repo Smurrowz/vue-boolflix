@@ -2,7 +2,7 @@
   <main class="container">
     <h2 v-if="moviesComputed.length">FILM:</h2>
     <ul class="wrapper">
-      <li class="card" v-for="(movie) in moviesComputed" :key="movie.id" @mouseenter="getActors(movie.id)">
+      <li class="card" v-for="(movie) in moviesComputed" :key="movie.id" @mouseenter="getActorsMovie(movie.id)">
         <div>
 
           <img class="card-img" :src="imgFirstPath +'w342' + movie.poster_path" :alt="movie.title"
@@ -12,9 +12,9 @@
         <div class="card-img-2">
           <p>Titolo: {{movie.title}}</p>
           <p>Titolo Originale: {{movie.original_title}} </p>
-          Attori: <span v-for="(actor, index) in movieActors" :key="index + 700000">
-            {{actor}},
-          </span>
+          <span v-if="movieActors.length > 0 ">Attori:
+            <span v-for="(actor, index) in movieActors" :key="index + 700000">{{actor}},</span>
+          </span> 
           <p>
             Voto:
             <span v-for="(emptystar,index) in voteTransformer(movie.vote_average)" :key="emptystar + index + 50"><svg
@@ -47,7 +47,7 @@
     </ul>
     <h2 v-if="tvShowsComputed.length">SERIE TV:</h2>
     <ul class="wrapper">
-      <li class="card" v-for="(show) in tvShowsComputed" :key="show.id">
+      <li class="card" v-for="(show) in tvShowsComputed" :key="show.id" @mouseenter="getActorsTv(show.id)">
         <div>
 
           <img class="card-img" :src="imgFirstPath +'w342' + show.poster_path" @error="imageLoadOnError"
@@ -57,6 +57,9 @@
         <div class="card-img-2">
           <p>Titolo: {{show.name}}</p>
           <p>Titolo Originale: {{show.original_name}} </p>
+          <span v-if="tvActors.length > 0 ">Attori:
+            <span v-for="(actor, index) in tvActors" :key="index + 705000">{{actor}},</span>
+          </span> 
           
             Voto:
             <span v-for="(emptystar) in voteTransformer(show.vote_average)" :key="emptystar + 5000"><svg
@@ -110,6 +113,7 @@ export default {
       imgFirstPath: 'https://image.tmdb.org/t/p/',
       maxVote: 5,
       movieActors : [],
+      tvActors : [],
 
     }
   },
@@ -130,7 +134,7 @@ export default {
     imageLoadOnError(e) {
       e.target.src = "https://prod-spinneys-cdn.azureedge.net/static/img/no-image-found.b1edc35f0fa6.png"
     },
-    getActors(id) { 
+    getActorsMovie(id) { 
         axios
         .get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=8cbfe3a39283c4f44f68376b0e0e6c1b&language=en-US`)
         .then((res) =>{
@@ -145,16 +149,28 @@ export default {
          
         });
 
+    },
+    getActorsTv(id) { 
+        axios
+        .get(`https://api.themoviedb.org/3/tv/${id}/credits?api_key=8cbfe3a39283c4f44f68376b0e0e6c1b&language=en-US`)
+        .then((res) =>{
+          this.tvActors = []
+          for (let i = 0; i < 5; i++) {
+            this.tvActors.push(res.data.cast[i].name)
+            
+          }
+          return this.tvActors
+            
+          
+         
+        });
+
     }
 
 
 
   },
-  watch: {
-    moviesComputed: function() {
-      this.getActors()
-    }
-  },
+
 
 
 
